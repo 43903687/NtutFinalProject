@@ -13,7 +13,14 @@
           <p class="eyebrow">Sepolia Testnet DApp</p>
           <h1>北科畢業模擬器</h1>
           <p class="subtitle-en">NTUT Graduation Simulator</p>
-          <p class="hero-subtitle">花 10 NTUT，抽出你的大學結局。</p>
+          <p class="hero-subtitle">花 10 NTUT，跑完你的四年北科人生。</p>
+          <button class="hero-play-button" type="button" @click="playGame" :disabled="!canPlay">
+            <span>開始模擬</span>
+            <strong>PLAY COST 10 NTUT</strong>
+          </button>
+          <p v-if="isConnected && isCorrectNetwork && !hasEnoughNtut" class="hero-hint">NTUT 不足，請先往下購買代幣。</p>
+          <p v-else-if="!isConnected" class="hero-hint">先連接 MetaMask，再開始你的鏈上大學生活。</p>
+          <p v-else-if="!isCorrectNetwork" class="hero-hint">目前不是 Sepolia 測試網，請先切換網路。</p>
           <div class="ticker" aria-label="Game themes">
             <span>學分危機</span>
             <span>教授點名</span>
@@ -38,7 +45,42 @@
       {{ message }}
     </section>
 
-    <section class="dashboard" aria-label="Wallet status">
+    <section v-if="txStatus" class="tx-status" aria-live="polite">
+      {{ txStatus }}
+    </section>
+
+    <section class="purchase-band">
+      <div class="panel buy-panel">
+        <div class="panel-heading">
+          <p class="eyebrow">Token Shop</p>
+          <h2>購買 NTUT Token</h2>
+        </div>
+        <p class="exchange-rate">0.001 Sepolia ETH = 10 NTUT = 遊玩 1 次</p>
+
+        <div class="quick-buy" aria-label="Quick buy options">
+          <button v-for="option in buyOptions" :key="option.amount" type="button" @click="selectBuyAmount(option.amount)">
+            <span>{{ option.label }}</span>
+            <strong>{{ option.amount }} ETH</strong>
+          </button>
+        </div>
+
+        <label class="field-label" for="ethAmount">輸入 Sepolia ETH 數量</label>
+        <div class="input-row">
+          <input id="ethAmount" v-model="customEthAmount" inputmode="decimal" placeholder="0.001" />
+          <button type="button" @click="buyTokens(customEthAmount)" :disabled="!canTransact || isLoading">
+            購買 NTUT
+          </button>
+        </div>
+      </div>
+
+      <div class="panel mini-rule-panel">
+        <p class="eyebrow">How It Works</p>
+        <h2>合約決定結局，前端跑四年劇情</h2>
+        <p>按下開始後，Sepolia 合約會抽出 S/A/B/C。前端再從事件資料庫抽主線，塞進大一到大四的 24 個節點。</p>
+      </div>
+    </section>
+
+    <section class="wallet-bottom" aria-label="Wallet status">
       <div class="panel status-panel">
         <div class="panel-heading">
           <p class="eyebrow">Wallet Status</p>
@@ -48,9 +90,7 @@
         <div class="status-grid">
           <div class="status-item">
             <span>目前網路</span>
-            <strong :class="isCorrectNetwork ? 'ok-text' : 'danger-text'">
-              {{ chainLabel }}
-            </strong>
+            <strong :class="isCorrectNetwork ? 'ok-text' : 'danger-text'">{{ chainLabel }}</strong>
           </div>
           <div class="status-item">
             <span>錢包地址</span>
@@ -78,68 +118,6 @@
       </div>
     </section>
 
-    <section class="actions-grid">
-      <div class="panel buy-panel">
-        <div class="panel-heading">
-          <p class="eyebrow">Token Shop</p>
-          <h2>購買 NTUT Token</h2>
-        </div>
-        <p class="exchange-rate">0.001 Sepolia ETH = 10 NTUT = 遊玩 1 次</p>
-
-        <div class="quick-buy" aria-label="Quick buy options">
-          <button v-for="option in buyOptions" :key="option.amount" type="button" @click="selectBuyAmount(option.amount)">
-            <span>{{ option.label }}</span>
-            <strong>{{ option.amount }} ETH</strong>
-          </button>
-        </div>
-
-        <label class="field-label" for="ethAmount">輸入 Sepolia ETH 數量</label>
-        <div class="input-row">
-          <input id="ethAmount" v-model="customEthAmount" inputmode="decimal" placeholder="0.001" />
-          <button type="button" @click="buyTokens(customEthAmount)" :disabled="!canTransact || isLoading">
-            購買 NTUT
-          </button>
-        </div>
-      </div>
-
-      <div class="panel game-panel">
-        <div class="panel-heading">
-          <p class="eyebrow">Slot Machine</p>
-          <h2>北科人生老虎機</h2>
-        </div>
-        <p class="game-copy">每次遊玩消耗 10 NTUT。你可能抽到書卷人生，也可能抽到延畢危機。</p>
-
-        <div class="cost-meter">
-          <span>PLAY COST</span>
-          <strong>10 NTUT</strong>
-        </div>
-
-        <button class="play-button" type="button" @click="playGame" :disabled="!canPlay">
-          開始模擬
-        </button>
-        <p v-if="isConnected && isCorrectNetwork && !hasEnoughNtut" class="hint">NTUT 不足，請先購買代幣。</p>
-      </div>
-    </section>
-
-    <section v-if="isSpinning" class="loading-strip" aria-live="polite">
-      <div class="spinner-dot"></div>
-      <p>{{ loadingText }}</p>
-    </section>
-
-    <section v-if="txStatus" class="tx-status" aria-live="polite">
-      {{ txStatus }}
-    </section>
-
-    <section v-if="resultVisible" class="result-card" :class="resultClass">
-      <div class="rank-badge">{{ resultRank }}</div>
-      <div>
-        <p class="eyebrow">Simulation Result</p>
-        <h2>{{ resultContent.title }}</h2>
-        <p>{{ resultContent.description }}</p>
-        <strong>獎勵：{{ formattedPayout }} NTUT</strong>
-      </div>
-    </section>
-
     <section class="panel metamask-panel">
       <div class="panel-heading">
         <p class="eyebrow">MetaMask Token</p>
@@ -149,12 +127,61 @@
       <code>{{ contractAddress }}</code>
       <button type="button" @click="addTokenToMetaMask">加入 NTUT 到 MetaMask</button>
     </section>
+
+    <div v-if="storyModalOpen" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="北科四年劇情模擬">
+      <section class="story-modal" :class="resultClass">
+        <button class="modal-close" type="button" @click="closeStoryModal" aria-label="Close story">X</button>
+        <div class="story-header">
+          <div>
+            <p class="eyebrow">Four-Year Simulation</p>
+            <h2>北科四年時間軸</h2>
+          </div>
+          <div class="story-rank" v-if="resultRank">{{ resultRank }}</div>
+        </div>
+
+        <div v-if="isSpinning" class="loading-strip story-loading" aria-live="polite">
+          <div class="spinner-dot"></div>
+          <p>{{ loadingText }}</p>
+        </div>
+
+        <div v-else-if="activeStory" class="story-body">
+          <div class="story-progress">
+            <span>{{ activeStory.label }}</span>
+            <strong>{{ storyStep + 1 }} / {{ timeline.length }}</strong>
+          </div>
+          <div class="story-card" :class="`event-${activeStory.rank?.toLowerCase() || 'b'}`">
+            <div class="event-meta">
+              <span>{{ activeStory.type === 'mainline' ? '主線事件' : activeStory.category }}</span>
+              <strong>{{ activeStory.rank || 'B' }}</strong>
+            </div>
+            <p>{{ activeStory.text }}</p>
+          </div>
+          <div class="story-controls">
+            <button type="button" @click="prevStoryStep" :disabled="storyStep === 0">上一段</button>
+            <button type="button" @click="nextStoryStep">
+              {{ storyStep === timeline.length - 1 ? '看最終結局' : '下一段' }}
+            </button>
+          </div>
+        </div>
+
+        <div v-if="resultVisible" class="modal-result">
+          <div class="rank-badge">{{ resultRank }}</div>
+          <div>
+            <p class="eyebrow">Final Ending</p>
+            <h2>{{ resultContent.title }}</h2>
+            <p>{{ resultContent.description }}</p>
+            <strong>獎勵：{{ formattedPayout }} NTUT</strong>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 </template>
 
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { ethers } from 'ethers';
+import eventData from './event.json';
 
 const contractAddress = '0x34d56E04F7fE36d4c04AE0b37ac6b80731De7e48';
 const contractABI = [
@@ -172,6 +199,7 @@ const contractABI = [
 ];
 
 const sepoliaChainId = '0xaa36a7';
+const TOTAL_STEPS = 24;
 
 const account = ref('');
 const chainId = ref('');
@@ -190,12 +218,15 @@ const message = ref('');
 const messageType = ref('info');
 const isSpinning = ref(false);
 const loadingIndex = ref(0);
+const storyModalOpen = ref(false);
+const timeline = ref([]);
+const storyStep = ref(0);
 let loadingTimer;
 let provider;
 let signer;
 let contract;
 
-const slotItems = ['學分', '教授', '專題', '實習', '畢業'];
+const slotItems = ['學分', '教授', '專題', '畢業', '實習'];
 const buyOptions = [
   { label: '買 1 次', amount: '0.001' },
   { label: '買 5 次', amount: '0.005' },
@@ -228,7 +259,8 @@ const chainLabel = computed(() => {
   return isCorrectNetwork.value ? 'Sepolia' : '錯誤網路';
 });
 const resultContent = computed(() => resultMap[resultRank.value] || resultMap.C);
-const resultClass = computed(() => `rank-${String(resultRank.value || 'C').toLowerCase()}`);
+const resultClass = computed(() => `rank-${String(resultRank.value || 'c').toLowerCase()}`);
+const activeStory = computed(() => timeline.value[storyStep.value]);
 
 function setMessage(text, type = 'info') {
   message.value = text;
@@ -238,6 +270,51 @@ function setMessage(text, type = 'info') {
 function formatAddress(address) {
   if (!address) return '';
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}
+
+function randomPick(list) {
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+function semesterLabel(index) {
+  const years = ['大一', '大二', '大三', '大四'];
+  const terms = ['上 開學', '上 期中', '上 期末', '下 開學', '下 期中', '下 期末'];
+  return `${years[Math.floor(index / 6)]}${terms[index % 6]}`;
+}
+
+function buildTimeline(rank) {
+  const mainlinePool = eventData.mainlines[rank] || eventData.mainlines.C;
+  const selectedMainline = randomPick(mainlinePool);
+  const nextTimeline = Array.from({ length: TOTAL_STEPS }, (_, index) => ({
+    semesterIndex: index,
+    label: semesterLabel(index),
+    type: 'empty',
+    text: ''
+  }));
+
+  for (const event of selectedMainline) {
+    nextTimeline[event.semesterIndex] = {
+      ...event,
+      label: event.label || semesterLabel(event.semesterIndex),
+      type: 'mainline',
+      rank
+    };
+  }
+
+  for (let index = 0; index < nextTimeline.length; index += 1) {
+    if (nextTimeline[index].type === 'empty') {
+      const independent = randomPick(eventData.independentEvents);
+      nextTimeline[index] = {
+        ...independent,
+        semesterIndex: index,
+        label: semesterLabel(index),
+        type: 'independent'
+      };
+    }
+  }
+
+  timeline.value = nextTimeline;
+  storyStep.value = 0;
 }
 
 function normalizeError(error) {
@@ -350,7 +427,6 @@ async function buyTokens(amount) {
       return;
     }
     isLoading.value = true;
-    resultVisible.value = false;
     txStatus.value = '等待 MetaMask 確認...';
     const tx = await contract.buyTokens({ value: ethers.parseEther(amount) });
     txStatus.value = '交易送出中...';
@@ -377,6 +453,8 @@ async function playGame() {
   }
 
   try {
+    storyModalOpen.value = true;
+    timeline.value = [];
     isLoading.value = true;
     resultVisible.value = false;
     startLoadingAnimation();
@@ -419,8 +497,25 @@ function parseGamePlayedEvent(receipt) {
 function showResult(nextRank, nextPayout) {
   resultRank.value = nextRank;
   payout.value = ethers.formatUnits(nextPayout, 18);
+  buildTimeline(nextRank);
+  resultVisible.value = false;
+  setMessage(`${nextRank} 級結局已抽出，開始播放四年人生。`, 'success');
+}
+
+function nextStoryStep() {
+  if (storyStep.value < timeline.value.length - 1) {
+    storyStep.value += 1;
+    return;
+  }
   resultVisible.value = true;
-  setMessage(`${nextRank} 級結局已揭曉。`, 'success');
+}
+
+function prevStoryStep() {
+  if (storyStep.value > 0) storyStep.value -= 1;
+}
+
+function closeStoryModal() {
+  storyModalOpen.value = false;
 }
 
 function listenForGamePlayed() {
@@ -428,7 +523,7 @@ function listenForGamePlayed() {
   contract.removeAllListeners('GamePlayed');
   contract.on('GamePlayed', (player, eventRank, eventPayout) => {
     if (player.toLowerCase() !== account.value.toLowerCase()) return;
-    showResult(eventRank, eventPayout);
+    if (!storyModalOpen.value) showResult(eventRank, eventPayout);
     loadBalances();
   });
 }

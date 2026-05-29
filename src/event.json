@@ -1,0 +1,76 @@
+{
+  "mainlines": {
+    "S": [
+      [
+        { "semesterIndex": 1, "label": "大一上 期中", "text": "你在微積分小考拿到全班最高，助教看你的眼神像看到校史館新展品。" },
+        { "semesterIndex": 7, "label": "大二上 期中", "text": "你加入教授實驗室，第一次 meeting 就提出能上台報告的想法。" },
+        { "semesterIndex": 14, "label": "大三上 期末", "text": "專題題目被老師稱讚有產業價值，組員突然都變得很準時。" },
+        { "semesterIndex": 21, "label": "大四下 開學", "text": "你同時拿到推甄備取上岸通知和實習轉正 offer，人生像被 Sepolia faucet 祝福。" },
+        { "semesterIndex": 23, "label": "大四下 期末", "text": "畢業典禮那天，教授真的記得你的名字，還問你要不要回來念博。" }
+      ],
+      [
+        { "semesterIndex": 0, "label": "大一上 開學", "text": "迎新第一天你迷路到研究所樓層，結果認識一位願意罩你的學長姐。" },
+        { "semesterIndex": 8, "label": "大二上 期末", "text": "你用一個週末寫完社團網站，意外變成系上前端傳說。" },
+        { "semesterIndex": 15, "label": "大三下 開學", "text": "實習面試時你展示 DApp 專案，面試官當場開始問合約地址。" },
+        { "semesterIndex": 20, "label": "大四上 期末", "text": "專題 demo 零失誤，連最嚴格的老師都點頭。" },
+        { "semesterIndex": 23, "label": "大四下 期末", "text": "你準時畢業、履歷漂亮、帳上還有 NTUT，北科人生直接金色傳說。" }
+      ]
+    ],
+    "A": [
+      [
+        { "semesterIndex": 2, "label": "大一上 期末", "text": "你差點被普物打穿，但靠著考古題活下來。" },
+        { "semesterIndex": 9, "label": "大二下 開學", "text": "你開始固定去圖書館，雖然有一半時間在看咖啡廳菜單。" },
+        { "semesterIndex": 16, "label": "大三下 期中", "text": "實習履歷終於改到能看，HR 回信的那刻你差點截圖供起來。" },
+        { "semesterIndex": 23, "label": "大四下 期末", "text": "你順利畢業，專題、實習、學分都到位，人生暫時沒有爆炸。" }
+      ],
+      [
+        { "semesterIndex": 4, "label": "大一下 期中", "text": "你在通識課遇到超強隊友，小組報告從地獄難度變成普通難度。" },
+        { "semesterIndex": 11, "label": "大二下 期末", "text": "你第一次在期末週提前三天開始讀書，感覺自己成熟了。" },
+        { "semesterIndex": 18, "label": "大四上 開學", "text": "專題進度雖然不快，但每週都有 commit，老師看了很欣慰。" },
+        { "semesterIndex": 23, "label": "大四下 期末", "text": "你沒有成為傳說，但也沒有成為警示案例，穩穩穿過畢業門。" }
+      ]
+    ],
+    "B": [
+      [
+        { "semesterIndex": 3, "label": "大一下 開學", "text": "你發現上學期有一科低空飛過，決定這學期要重新做人。" },
+        { "semesterIndex": 10, "label": "大二下 期中", "text": "期中考前一天你還在修環境，幸好最後 demo 有跑起來。" },
+        { "semesterIndex": 17, "label": "大三下 期末", "text": "專題進度像捷運尖峰時段一樣卡，但至少有往前動。" },
+        { "semesterIndex": 23, "label": "大四下 期末", "text": "教授最後放你一馬，學分驚險到手，你以低空飛行姿勢滑進畢業典禮。" }
+      ],
+      [
+        { "semesterIndex": 1, "label": "大一上 期中", "text": "你第一次體會到大學不是高中續集，而是大型自主管理實驗。" },
+        { "semesterIndex": 12, "label": "大三上 開學", "text": "你開始補以前欠下的基礎，筆記本第一頁寫著：這次真的。" },
+        { "semesterIndex": 19, "label": "大四上 期中", "text": "專題報告差點翻車，但你用臨場反應把老師問題接住。" },
+        { "semesterIndex": 23, "label": "大四下 期末", "text": "畢業門檻剛好擦邊通過，刺激程度堪比期末週找停車位。" }
+      ]
+    ],
+    "C": [
+      [
+        { "semesterIndex": 2, "label": "大一上 期末", "text": "你以為期末週只有一週，結果它像連續劇一樣還有第二季。" },
+        { "semesterIndex": 8, "label": "大二上 期末", "text": "必修被當，系統提醒你重修，語氣冷靜得像在宣判。" },
+        { "semesterIndex": 15, "label": "大三下 開學", "text": "專題組員開始已讀不回，你對人類協作產生哲學懷疑。" },
+        { "semesterIndex": 23, "label": "大四下 期末", "text": "學分、專題、期末一起爆炸，你開始研究延畢流程，並安慰自己至少很熟校園。" }
+      ],
+      [
+        { "semesterIndex": 5, "label": "大一下 期末", "text": "你在考場看到題目後，腦中只剩下宿舍冷氣的聲音。" },
+        { "semesterIndex": 13, "label": "大三上 期中", "text": "加退選失敗讓你的課表像拼錯的拼圖，時間全部卡在一起。" },
+        { "semesterIndex": 20, "label": "大四上 期末", "text": "專題 demo 當天套件版本衝突，你的笑容逐漸失去 CSS。" },
+        { "semesterIndex": 23, "label": "大四下 期末", "text": "延畢警報響起，你決定下學期把人生重新 npm install。" }
+      ]
+    ]
+  },
+  "independentEvents": [
+    { "id": "e01", "rank": "A", "category": "課業事件", "text": "今天早八教授居然沒點名，你多睡了四十分鐘，精神直接回血。" },
+    { "id": "e02", "rank": "B", "category": "日常事件", "text": "你在光華商場繞了一圈，最後只買了飲料，但感覺自己很懂硬體。" },
+    { "id": "e03", "rank": "C", "category": "期末事件", "text": "你打開講義發現每一頁都像新朋友，期末週正式進入生存模式。" },
+    { "id": "e04", "rank": "S", "category": "神運事件", "text": "小考題目剛好是你昨晚唯一看過的章節，你短暫相信命運。" },
+    { "id": "e05", "rank": "B", "category": "社交事件", "text": "同學揪你去吃宵夜，你說只吃一點，最後吃到快門禁。" },
+    { "id": "e06", "rank": "A", "category": "專題事件", "text": "組員今天準時上線，還主動開 issue，這畫面值得截圖紀念。" },
+    { "id": "e07", "rank": "C", "category": "通勤事件", "text": "捷運一出站就下雨，你看著沒帶傘的自己，開始思考人生風險控管。" },
+    { "id": "e08", "rank": "B", "category": "課業事件", "text": "作業 deadline 往後延一天，全班在群組裡安靜地狂歡。" },
+    { "id": "e09", "rank": "A", "category": "實習事件", "text": "你把履歷改成一頁，突然看起來像真的有職涯規劃。" },
+    { "id": "e10", "rank": "C", "category": "專題事件", "text": "demo 前五分鐘才發現 API key 沒放，空氣一瞬間變得很安靜。" },
+    { "id": "e11", "rank": "B", "category": "校園事件", "text": "你在校園角落找到一個插座，這個下午突然有了歸屬感。" },
+    { "id": "e12", "rank": "S", "category": "人生事件", "text": "教授說你的報告架構很清楚，你表面冷靜，內心已經放煙火。" }
+  ]
+}
