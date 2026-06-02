@@ -277,36 +277,46 @@ function randomPick(list) {
 }
 
 function semesterLabel(index) {
-  const years = ['大一', '大二', '大三', '大四'];
-  const terms = ['上 開學', '上 期中', '上 期末', '下 開學', '下 期中', '下 期末'];
-  return `${years[Math.floor(index / 6)]}${terms[index % 6]}`;
+  const semesters = ['大一上', '大一下', '大二上', '大二下', '大三上', '大三下', '大四上', '大四下'];
+  const s = Math.floor(index / 3);
+  const step = (index % 3) + 1;
+  return `${semesters[s]} (${step}/3)`;
 }
 
 function buildTimeline(rank) {
   const mainlinePool = eventData.mainlines[rank] || eventData.mainlines.C;
   const selectedMainline = randomPick(mainlinePool);
-  const nextTimeline = Array.from({ length: TOTAL_STEPS }, (_, index) => ({
-    semesterIndex: index,
-    label: semesterLabel(index),
-    type: 'empty',
-    text: ''
-  }));
+  
+  // We have 8 semesters, each with 3 events, total 24 steps
+  const nextTimeline = Array.from({ length: TOTAL_STEPS }, (_, index) => {
+    const s = Math.floor(index / 3);
+    return {
+      semesterIndex: s,
+      label: semesterLabel(index),
+      type: 'empty',
+      text: ''
+    };
+  });
 
+  // Find mainline events and place them at the end of their respective semester (slot 2)
   for (const event of selectedMainline) {
-    nextTimeline[event.semesterIndex] = {
+    const s = event.semesterIndex; // 0 to 7
+    const index = s * 3 + 2; // Place at slot 2 of semester s
+    nextTimeline[index] = {
       ...event,
-      label: event.label || semesterLabel(event.semesterIndex),
+      label: event.label || semesterLabel(index),
       type: 'mainline',
       rank
     };
   }
 
+  // Fill all remaining empty slots with independent events
   for (let index = 0; index < nextTimeline.length; index += 1) {
     if (nextTimeline[index].type === 'empty') {
       const independent = randomPick(eventData.independentEvents);
       nextTimeline[index] = {
         ...independent,
-        semesterIndex: index,
+        semesterIndex: Math.floor(index / 3),
         label: semesterLabel(index),
         type: 'independent'
       };
